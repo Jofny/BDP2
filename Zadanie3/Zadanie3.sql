@@ -1,7 +1,7 @@
 USE AdventureWorksDW2019;
 GO
 
-ALTER PROCEDURE GetCurrencyRatesFromYearsAgo
+CREATE PROCEDURE Zadanie3
     @YearsAgo INT
 AS
 BEGIN
@@ -17,4 +17,4 @@ GO
 
 DECLARE @YearsAgo INT
 SET @YearsAgo = 11
-EXEC GetCurrencyRatesFromYearsAgo @YearsAgo;
+EXEC Zadanie3 @YearsAgo;
