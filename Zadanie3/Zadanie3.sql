@@ -10,7 +10,7 @@ BEGIN
     INNER JOIN dbo.DimCurrency AS C
         ON CR.CurrencyKey = C.CurrencyKey
     WHERE
-        CAST(CONVERT(VARCHAR(8), CR.DateKey) AS DATE) <= DATEADD(YEAR, -@YearsAgo, GETDATE())
+        CR.Date <= DATEADD(YEAR, -@YearsAgo, GETDATE())
         AND (C.CurrencyAlternateKey = 'GBP' OR C.CurrencyAlternateKey = 'EUR');
 END;
 GO
