@@ -12,8 +12,8 @@
   DTS:ObjectName="s400140"
   DTS:PackageType="5"
   DTS:ProtectionLevel="0"
-  DTS:VersionBuild="40"
-  DTS:VersionGUID="{27EAA6E0-A537-476D-AD49-1ED68F570C1D}">
+  DTS:VersionBuild="54"
+  DTS:VersionGUID="{0AD77A4E-D056-4486-9689-110987E19DD2}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -906,11 +906,10 @@
                       cachedName="CurrencyAlternateKey"
                       lineageId="Package\cw3\Lookup.Outputs[Lookup Match Output].Columns[CurrencyAlternateKey]" />
                     <inputColumn
-                      refId="Package\cw3\Conditional Split.Inputs[Conditional Split Input].Columns[Derived Column 1]"
-                      cachedDataType="wstr"
-                      cachedLength="10"
-                      cachedName="Derived Column 1"
-                      lineageId="Package\cw3\Derived Column.Outputs[Derived Column Output].Columns[Derived Column 1]" />
+                      refId="Package\cw3\Conditional Split.Inputs[Conditional Split Input].Columns[Date]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="Date"
+                      lineageId="Package\cw3\fctcurrencyrate.Outputs[OLE DB Source Output].Columns[Date]" />
                   </inputColumns>
                   <externalMetadataColumns />
                 </input>
@@ -930,13 +929,13 @@
                       containsID="true"
                       dataType="System.String"
                       description="Specifies the expression. This expression version uses lineage identifiers instead of column names."
-                      name="Expression">[DATEDIFF]("yy",(DT_DBTIMESTAMP)#{Package\cw3\Derived Column.Outputs[Derived Column Output].Columns[Derived Column 1]},[GETDATE]()) &gt;= @[$Package::YearAgo] &amp;&amp; #{Package\cw3\Lookup.Outputs[Lookup Match Output].Columns[CurrencyAlternateKey]} == "GBP" || #{Package\cw3\Lookup.Outputs[Lookup Match Output].Columns[CurrencyAlternateKey]} == "EUR"</property>
+                      name="Expression">#{Package\cw3\fctcurrencyrate.Outputs[OLE DB Source Output].Columns[Date]} &lt;= [DATEADD]("yyyy",-@[$Package::YearAgo],[GETDATE]()) &amp;&amp; #{Package\cw3\Lookup.Outputs[Lookup Match Output].Columns[CurrencyAlternateKey]} == "GBP" || #{Package\cw3\Lookup.Outputs[Lookup Match Output].Columns[CurrencyAlternateKey]} == "EUR"</property>
                     <property
                       containsID="true"
                       dataType="System.String"
                       description="Specifies the friendly version of the expression. This expression version uses column names."
                       expressionType="Notify"
-                      name="FriendlyExpression">DATEDIFF("yy",(DT_DBTIMESTAMP)[Derived Column 1],GETDATE()) &gt;= @[$Package::YearAgo] &amp;&amp; CurrencyAlternateKey == "GBP" || CurrencyAlternateKey == "EUR"</property>
+                      name="FriendlyExpression">Date &lt;= DATEADD("yyyy",-@[$Package::YearAgo],GETDATE()) &amp;&amp; CurrencyAlternateKey == "GBP" || CurrencyAlternateKey == "EUR"</property>
                     <property
                       dataType="System.Int32"
                       description="Specifies the position of the condition in the list of conditions that the transformation evaluates. The evaluation order is from the lowest to the highest value."
@@ -975,166 +974,6 @@
                       refId="Package\cw3\Conditional Split.Outputs[Conditional Split Error Output].Columns[ErrorColumn]"
                       dataType="i4"
                       lineageId="Package\cw3\Conditional Split.Outputs[Conditional Split Error Output].Columns[ErrorColumn]"
-                      name="ErrorColumn"
-                      specialFlags="2" />
-                  </outputColumns>
-                  <externalMetadataColumns />
-                </output>
-              </outputs>
-            </component>
-            <component
-              refId="Package\cw3\Data Conversion"
-              componentClassID="Microsoft.DataConvert"
-              contactInfo="Data Conversion;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
-              description="Data Conversion"
-              name="Data Conversion"
-              usesDispositions="true">
-              <inputs>
-                <input
-                  refId="Package\cw3\Data Conversion.Inputs[Data Conversion Input]"
-                  name="Data Conversion Input">
-                  <inputColumns>
-                    <inputColumn
-                      refId="Package\cw3\Data Conversion.Inputs[Data Conversion Input].Columns[DateKey]"
-                      cachedDataType="i4"
-                      cachedName="DateKey"
-                      lineageId="Package\cw3\fctcurrencyrate.Outputs[OLE DB Source Output].Columns[DateKey]" />
-                  </inputColumns>
-                  <externalMetadataColumns />
-                </input>
-              </inputs>
-              <outputs>
-                <output
-                  refId="Package\cw3\Data Conversion.Outputs[Data Conversion Output]"
-                  exclusionGroup="1"
-                  name="Data Conversion Output"
-                  synchronousInputId="Package\cw3\Data Conversion.Inputs[Data Conversion Input]">
-                  <outputColumns>
-                    <outputColumn
-                      refId="Package\cw3\Data Conversion.Outputs[Data Conversion Output].Columns[StringDateKey]"
-                      codePage="1250"
-                      dataType="str"
-                      errorOrTruncationOperation="Conversion"
-                      errorRowDisposition="FailComponent"
-                      length="50"
-                      lineageId="Package\cw3\Data Conversion.Outputs[Data Conversion Output].Columns[StringDateKey]"
-                      name="StringDateKey"
-                      truncationRowDisposition="FailComponent">
-                      <properties>
-                        <property
-                          containsID="true"
-                          dataType="System.Int32"
-                          description="Specifies the input column used as the source of data for the conversion."
-                          name="SourceInputColumnLineageID">#{Package\cw3\fctcurrencyrate.Outputs[OLE DB Source Output].Columns[DateKey]}</property>
-                        <property
-                          dataType="System.Boolean"
-                          description="Indicates whether the column uses the faster, locale-neutral parsing routines."
-                          name="FastParse">false</property>
-                      </properties>
-                    </outputColumn>
-                  </outputColumns>
-                  <externalMetadataColumns />
-                </output>
-                <output
-                  refId="Package\cw3\Data Conversion.Outputs[Data Conversion Error Output]"
-                  exclusionGroup="1"
-                  isErrorOut="true"
-                  name="Data Conversion Error Output"
-                  synchronousInputId="Package\cw3\Data Conversion.Inputs[Data Conversion Input]">
-                  <outputColumns>
-                    <outputColumn
-                      refId="Package\cw3\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
-                      dataType="i4"
-                      lineageId="Package\cw3\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
-                      name="ErrorCode"
-                      specialFlags="1" />
-                    <outputColumn
-                      refId="Package\cw3\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
-                      dataType="i4"
-                      lineageId="Package\cw3\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
-                      name="ErrorColumn"
-                      specialFlags="2" />
-                  </outputColumns>
-                  <externalMetadataColumns />
-                </output>
-              </outputs>
-            </component>
-            <component
-              refId="Package\cw3\Derived Column"
-              componentClassID="Microsoft.DerivedColumn"
-              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
-              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
-              name="Derived Column"
-              usesDispositions="true">
-              <inputs>
-                <input
-                  refId="Package\cw3\Derived Column.Inputs[Derived Column Input]"
-                  description="Input to the Derived Column Transformation"
-                  name="Derived Column Input">
-                  <inputColumns>
-                    <inputColumn
-                      refId="Package\cw3\Derived Column.Inputs[Derived Column Input].Columns[StringDateKey]"
-                      cachedCodepage="1250"
-                      cachedDataType="str"
-                      cachedLength="50"
-                      cachedName="StringDateKey"
-                      lineageId="Package\cw3\Data Conversion.Outputs[Data Conversion Output].Columns[StringDateKey]" />
-                  </inputColumns>
-                  <externalMetadataColumns />
-                </input>
-              </inputs>
-              <outputs>
-                <output
-                  refId="Package\cw3\Derived Column.Outputs[Derived Column Output]"
-                  description="Default Output of the Derived Column Transformation"
-                  exclusionGroup="1"
-                  name="Derived Column Output"
-                  synchronousInputId="Package\cw3\Derived Column.Inputs[Derived Column Input]">
-                  <outputColumns>
-                    <outputColumn
-                      refId="Package\cw3\Derived Column.Outputs[Derived Column Output].Columns[Derived Column 1]"
-                      dataType="wstr"
-                      errorOrTruncationOperation="Computation"
-                      errorRowDisposition="FailComponent"
-                      length="10"
-                      lineageId="Package\cw3\Derived Column.Outputs[Derived Column Output].Columns[Derived Column 1]"
-                      name="Derived Column 1"
-                      truncationRowDisposition="FailComponent">
-                      <properties>
-                        <property
-                          containsID="true"
-                          dataType="System.String"
-                          description="Derived Column Expression"
-                          name="Expression">[SUBSTRING](#{Package\cw3\Data Conversion.Outputs[Data Conversion Output].Columns[StringDateKey]},5,2) + "/" + [SUBSTRING](#{Package\cw3\Data Conversion.Outputs[Data Conversion Output].Columns[StringDateKey]},7,2) + "/" + [SUBSTRING](#{Package\cw3\Data Conversion.Outputs[Data Conversion Output].Columns[StringDateKey]},1,4)</property>
-                        <property
-                          containsID="true"
-                          dataType="System.String"
-                          description="Derived Column Friendly Expression"
-                          expressionType="Notify"
-                          name="FriendlyExpression">SUBSTRING(StringDateKey,5,2) + "/" + SUBSTRING(StringDateKey,7,2) + "/" + SUBSTRING(StringDateKey,1,4)</property>
-                      </properties>
-                    </outputColumn>
-                  </outputColumns>
-                  <externalMetadataColumns />
-                </output>
-                <output
-                  refId="Package\cw3\Derived Column.Outputs[Derived Column Error Output]"
-                  description="Error Output of the Derived Column Transformation"
-                  exclusionGroup="1"
-                  isErrorOut="true"
-                  name="Derived Column Error Output"
-                  synchronousInputId="Package\cw3\Derived Column.Inputs[Derived Column Input]">
-                  <outputColumns>
-                    <outputColumn
-                      refId="Package\cw3\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorCode]"
-                      dataType="i4"
-                      lineageId="Package\cw3\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorCode]"
-                      name="ErrorCode"
-                      specialFlags="1" />
-                    <outputColumn
-                      refId="Package\cw3\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
-                      dataType="i4"
-                      lineageId="Package\cw3\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
                       name="ErrorColumn"
                       specialFlags="2" />
                   </outputColumns>
@@ -1591,18 +1430,8 @@ where [refTable].[CurrencyKey] = ?</property>
               name="Case 1"
               startId="Package\cw3\Conditional Split.Outputs[Case 1]" />
             <path
-              refId="Package\cw3.Paths[Data Conversion Output]"
-              endId="Package\cw3\Derived Column.Inputs[Derived Column Input]"
-              name="Data Conversion Output"
-              startId="Package\cw3\Data Conversion.Outputs[Data Conversion Output]" />
-            <path
-              refId="Package\cw3.Paths[Derived Column Output]"
-              endId="Package\cw3\Conditional Split.Inputs[Conditional Split Input]"
-              name="Derived Column Output"
-              startId="Package\cw3\Derived Column.Outputs[Derived Column Output]" />
-            <path
               refId="Package\cw3.Paths[Lookup Match Output]"
-              endId="Package\cw3\Data Conversion.Inputs[Data Conversion Input]"
+              endId="Package\cw3\Conditional Split.Inputs[Conditional Split Input]"
               name="Lookup Match Output"
               startId="Package\cw3\Lookup.Outputs[Lookup Match Output]" />
             <path
@@ -1642,7 +1471,7 @@ where [refTable].[CurrencyKey] = ?</property>
     design-time-name="Package\cw2">
     <LayoutInfo>
       <GraphLayout
-        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
           Size="157,42"
           Id="Package\cw2\OLE DB Source"
@@ -1682,7 +1511,9 @@ where [refTable].[CurrencyKey] = ?</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -1704,7 +1535,9 @@ where [refTable].[CurrencyKey] = ?</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -1738,7 +1571,9 @@ where [refTable].[CurrencyKey] = ?</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
@@ -1772,7 +1607,9 @@ where [refTable].[CurrencyKey] = ?</property>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
@@ -1808,15 +1645,23 @@ where [refTable].[CurrencyKey] = ?</property>
     design-time-name="Package\cw3">
     <LayoutInfo>
       <GraphLayout
-        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
-          Size="152,42"
-          Id="Package\cw3\fctcurrencyrate"
-          TopLeft="449,96" />
+          Size="176,42"
+          Id="Package\cw3\Flat File Destination"
+          TopLeft="438,461" />
         <NodeLayout
           Size="115,42"
           Id="Package\cw3\Lookup"
           TopLeft="468,191" />
+        <NodeLayout
+          Size="159,42"
+          Id="Package\cw3\Conditional Split"
+          TopLeft="435,330" />
+        <NodeLayout
+          Size="152,42"
+          Id="Package\cw3\fctcurrencyrate"
+          TopLeft="449,96" />
         <EdgeLayout
           Id="Package\cw3.Paths[OLE DB Source Output]"
           TopLeft="525.25,138">
@@ -1839,148 +1684,76 @@ where [refTable].[CurrencyKey] = ?</property>
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
-        <NodeLayout
-          Size="176,42"
-          Id="Package\cw3\Flat File Destination"
-          TopLeft="427,539" />
-        <NodeLayout
-          Size="161,42"
-          Id="Package\cw3\Data Conversion"
-          TopLeft="405,281" />
+        <EdgeLayout
+          Id="Package\cw3.Paths[Case 1]"
+          TopLeft="514.5,372">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="11.5,89"
+              Start="0,0"
+              End="11.5,81.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,40.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,40.5"
+                    Point2="0,44.5"
+                    Point3="4,44.5" />
+                  <mssgle:LineSegment
+                    End="7.5,44.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="7.5,44.5"
+                    Point2="11.5,44.5"
+                    Point3="11.5,48.5" />
+                  <mssgle:LineSegment
+                    End="11.5,81.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-9.4680859375,49.5,30.436171875,9.5537109375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
         <EdgeLayout
           Id="Package\cw3.Paths[Lookup Match Output]"
           TopLeft="525.5,233">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="-40,48"
+              EndConnector="-11,97"
               Start="0,0"
-              End="-40,40.5">
+              End="-11,89.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,20" />
+                    End="0,44.5" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,20"
-                    Point2="0,24"
-                    Point3="-4,24" />
+                    Point1="0,44.5"
+                    Point2="0,48.5"
+                    Point3="-4,48.5" />
                   <mssgle:LineSegment
-                    End="-36,24" />
+                    End="-7,48.5" />
                   <mssgle:CubicBezierSegment
-                    Point1="-36,24"
-                    Point2="-40,24"
-                    Point3="-40,28" />
+                    Point1="-7,48.5"
+                    Point2="-11,48.5"
+                    Point3="-11,52.5" />
                   <mssgle:LineSegment
-                    End="-40,40.5" />
+                    End="-11,89.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
             <mssgm:EdgeLabel
-              BoundingBox="-68.19138671875,29,96.3827734375,11.609375"
+              BoundingBox="-53.69138671875,53.5,96.3827734375,11.609375"
               RelativePosition="Any" />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <NodeLayout
-          Size="158,42"
-          Id="Package\cw3\Derived Column"
-          TopLeft="416,366" />
-        <EdgeLayout
-          Id="Package\cw3.Paths[Data Conversion Output]"
-          TopLeft="485.5,323">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="9.5,43"
-              Start="0,0"
-              End="9.5,35.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,17.5" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,17.5"
-                    Point2="0,21.5"
-                    Point3="4,21.5" />
-                  <mssgle:LineSegment
-                    End="5.5,21.5" />
-                  <mssgle:CubicBezierSegment
-                    Point1="5.5,21.5"
-                    Point2="9.5,21.5"
-                    Point3="9.5,25.5" />
-                  <mssgle:LineSegment
-                    End="9.5,35.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <NodeLayout
-          Size="159,42"
-          Id="Package\cw3\Conditional Split"
-          TopLeft="423,440" />
-        <EdgeLayout
-          Id="Package\cw3.Paths[Case 1]"
-          TopLeft="502.5,482">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="12.5,57"
-              Start="0,0"
-              End="12.5,49.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,24.5" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,24.5"
-                    Point2="0,28.5"
-                    Point3="4,28.5" />
-                  <mssgle:LineSegment
-                    End="8.5,28.5" />
-                  <mssgle:CubicBezierSegment
-                    Point1="8.5,28.5"
-                    Point2="12.5,28.5"
-                    Point3="12.5,32.5" />
-                  <mssgle:LineSegment
-                    End="12.5,49.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="-8.9680859375,33.5,30.436171875,9.5537109375"
-              RelativePosition="Any" />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package\cw3.Paths[Derived Column Output]"
-          TopLeft="498.75,408">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,32"
-              Start="0,0"
-              End="0,24.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,24.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
@@ -1992,7 +1765,7 @@ where [refTable].[CurrencyKey] = ?</property>
       <Property>
         <Name>OverwriteParamsSQLProp</Name>
         <Value
-          type="q2:boolean">false</Value>
+          type="q2:string">false</Value>
       </Property>
       <Property>
         <Name>UsedTableName</Name>
@@ -2002,7 +1775,7 @@ where [refTable].[CurrencyKey] = ?</property>
       <Property>
         <Name>TableInfoObjectType</Name>
         <Value
-          type="q4:int">0</Value>
+          type="q4:string">0</Value>
       </Property>
       <Property>
         <Name>DataSourceViewID</Name>
