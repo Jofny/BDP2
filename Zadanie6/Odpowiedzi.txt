@@ -1,0 +1,2 @@
+6. W 5b dla lastname mamy do czynienia z SCD 1 a dla title SCD 2. Dla kwerendy z 5c jest to SCD 0.
+7. Jest to ustawienie z podpunktu 4d: Fail the transformation if changes are detected in a fixed attribute. Jeśli mieliśmy zmienić fixed attribute jakim jest first name, task ma zakończyć się niepowodzeniem.
