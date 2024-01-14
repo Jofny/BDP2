@@ -1,0 +1,20 @@
+2024-01-14 14:44:33 File obtained!
+2024-01-14 14:44:33 File unziped!
+2024-01-14 14:44:33 File validated!
+2024-01-14 14:44:33 Created mysql table!
+2024-01-14 14:44:34 Data loaded into SQL table
+2024-01-14 14:44:34 Created random SecretCodes for data in table
+2024-01-14 14:44:34 Moving preapared csv to PROCESSED catalog
+2024-01-14 14:44:35 Dumping table to CSV
+2024-01-14 14:44:35 Compressing csv
+2024-01-14 14:44:35 Plik został pobrany, rozpakowany i przetworzony. Wadliwe rekordy znajdują się w pliku InternetSales_new.bad_01142024
+2024-01-14 21:39:17 File obtained!
+2024-01-14 21:39:17 File unziped!
+2024-01-14 21:39:17 File validated!
+2024-01-14 21:39:18 Created mysql table!
+2024-01-14 21:39:18 Data loaded into SQL table
+2024-01-14 21:39:19 Created random SecretCodes for data in table
+2024-01-14 21:39:19 Moving preapared csv to PROCESSED catalog
+2024-01-14 21:39:19 Dumping table to CSV
+2024-01-14 21:39:19 Compressing csv
+2024-01-14 21:39:19 Plik został pobrany, rozpakowany i przetworzony. Wadliwe rekordy znajdują się w pliku InternetSales_new.bad_01142024

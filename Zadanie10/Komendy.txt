@@ -1,0 +1,2 @@
+bcp AdventureWorksDW2019.dbo.CUSTOMERS_400140 format nul -c -t',' -f customers.fmt -S DESKTOP-BJ37R02 -T
+bcp AdventureWorksDW2019.dbo.CUSTOMERS_400140 in "CUSTOMERS_400140.csv" -f customers.fmt -S DESKTOP-BJ37R02 -T
